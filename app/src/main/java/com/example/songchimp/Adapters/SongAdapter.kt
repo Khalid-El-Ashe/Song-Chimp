@@ -4,7 +4,7 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.songchimp.Entities.Song
@@ -14,15 +14,12 @@ import com.example.songchimp.Listener.OnSongClickListener
 class SongAdapter(
     var context: Context,
     var songList: MutableList<Song>,
-    var mp: MediaPlayer,
     private val songClick: OnSongClickListener,
 ) :
     RecyclerView.Adapter<SongAdapter.SongViewHolder>() {
 
-    var check: Int = 0
-
     fun filtering(filterList: ArrayList<Song>) {
-        songList.addAll(filterList)
+        songList = filterList
         notifyDataSetChanged()
     }
 
@@ -47,6 +44,11 @@ class SongAdapter(
 
         holder.binding.itemContainerSong.setOnClickListener {
             songClick.onSongClick(song, position)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
+            return@setOnLongClickListener true
         }
     }
 

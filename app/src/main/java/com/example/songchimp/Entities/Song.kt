@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "song_table")
-class Song {
+class Song: java.io.Serializable {
 
     @PrimaryKey(autoGenerate = true)
     var song_id: Int? = null

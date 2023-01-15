@@ -16,4 +16,10 @@ interface PlayListDao {
 
     @Query("select * from play_list_table")
     fun selectPlayList(): LiveData<List<PlayList>>
+
+//    @Query("select * from play_list_table where songId =:id")
+//    fun selectPlayListSong(id: Int): LiveData<List<Song>>
+
+//    @Insert
+//    suspend fun insertSongToPlayList(id: Int)
 }

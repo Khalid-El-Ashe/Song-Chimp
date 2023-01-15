@@ -21,6 +21,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_fav_dis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't have Favorite Song"
+        android:textColor="@color/tv_time"
+        android:textSize="@dimen/_16ssp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_fav_music"
         android:layout_width="match_parent"

@@ -7,46 +7,48 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.songchimp.Activity.Fragments.SplashFragment"
+        android:name="com.example.songchimp.UI.Fragments.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash_screen">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/fragments_graph" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.songchimp.Activity.Fragments.HomeFragment"
+        android:name="com.example.songchimp.UI.Fragments.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            android:id="@+id/action_homeFragment_to_fragmentSongController"
+            app:destination="@id/fragmentSongController" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.songchimp.Activity.Fragments.FavoriteFragment"
+        android:name="com.example.songchimp.UI.Fragments.FavoriteFragment"
         android:label="FavoriteFragment"
         tools:layout="@layout/fragment_favorite">
         <action
-            android:id="@+id/action_favoriteFragment_to_playListFragment"
-            app:destination="@id/playListFragment" />
-        <action
-            android:id="@+id/action_favoriteFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_favoriteFragment_to_fragmentSongController2"
+            app:destination="@id/fragmentSongController" />
     </fragment>
     <fragment
         android:id="@+id/playListFragment"
-        android:name="com.example.songchimp.Activity.Fragments.PlayListFragment"
+        android:name="com.example.songchimp.UI.Fragments.PlayListFragment"
         android:label="PlayListFragment"
-        tools:layout="@layout/fragment_play_list">
+        tools:layout="@layout/fragment_play_list" />
+    <fragment
+        android:id="@+id/fragmentSongController"
+        android:name="com.example.songchimp.UI.Fragments.SongControllerFragment"
+        android:label="FragmentSongController"
+        tools:layout="@layout/fragment_song_controller">
+        <argument
+            android:name="songs"
+            app:argType="com.example.songchimp.Entities.Song" />
 
-        <action
-            android:id="@+id/action_playListFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment"
-            app:popUpTo="@id/favoriteFragment"
-            app:popUpToInclusive="true" />
+        <argument android:name="position"
+            app:argType="integer"/>
+
     </fragment>
 </navigation>

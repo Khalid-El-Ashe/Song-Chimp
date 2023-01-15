@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_act">
+    android:layout_margin="@dimen/_5sdp"
+    android:background="@drawable/bottom_sheet_style">
 
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/inmLottie"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"
         android:layout_marginTop="@dimen/_50sdp"
-        android:src="@drawable/ic_icon_app"
+        android:src="@drawable/ic_song"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

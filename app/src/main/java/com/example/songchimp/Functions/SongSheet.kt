@@ -3,7 +3,7 @@ package com.example.songchimp.Functions
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
-import android.widget.ImageView
+import android.util.Log
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.songchimp.Entities.Song
 import com.example.songchimp.R
 import com.example.songchimp.ViewModel.SongViewModel
+import com.example.songchimp.databinding.SongSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +30,7 @@ fun Fragment.setupBottomSheetDialog(
     val dialog = BottomSheetDialog(requireContext(), R.style.DialogStyle)
     val view = layoutInflater.inflate(R.layout.song_sheet, null)
     dialog.setContentView(view)
+    val binding = SongSheetBinding.bind(view)
     dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
     dialog.show()
 
@@ -36,37 +38,29 @@ fun Fragment.setupBottomSheetDialog(
 
     var runnable: Runnable = kotlinx.coroutines.Runnable { }
 
-    val imgStart = view.findViewById<ImageView>(R.id.imgP_S)
-    val imgLast = view.findViewById<ImageView>(R.id.imgLast)
-    val imgNext = view.findViewById<ImageView>(R.id.imgNext)
-    val seekBar = view.findViewById<SeekBar>(R.id.seekBarSong)
-    val title = view.findViewById<TextView>(R.id.song_dialog_title)
-    val imgRepeat = view.findViewById<ImageView>(R.id.imgRepeat)
-    val imgFav = view.findViewById<ImageView>(R.id.imgFav)
-
     val timerSong = view.findViewById<TextView>(R.id.tvTimerSong)
 
     var song = songsList[currentPosition]
 
-    imgStart.setOnClickListener {
-
+    binding.imgPS.setOnClickListener {
         if (!mediaPlayer.isPlaying) {
-            imgStart.setImageResource(R.drawable.ic_start)
+            binding.imgPS.setImageResource(R.drawable.ic_start)
             try {
                 mediaPlayer.reset()
                 mediaPlayer.setDataSource(song.song_url)
                 mediaPlayer.prepare()
                 mediaPlayer.start()
+
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "have a problem : $e", Toast.LENGTH_SHORT).show()
             }
         } else if (mediaPlayer.isPlaying) {
-            imgStart.setImageResource(R.drawable.ic_stop)
+            binding.imgPS.setImageResource(R.drawable.ic_stop)
             mediaPlayer.pause()
         }
     }
 
-    seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+    binding.seekBarSong.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
             if (p2) {
                 mediaPlayer.seekTo(p1)
@@ -78,79 +72,78 @@ fun Fragment.setupBottomSheetDialog(
 
         override fun onStopTrackingTouch(p0: SeekBar?) {
             if (mediaPlayer.isPlaying) {
-                if (seekBar != null) {
-                    mediaPlayer.seekTo(seekBar.progress)
+                if (binding.seekBarSong != null) {
+                    mediaPlayer.seekTo(binding.seekBarSong.progress)
                 }
             }
         }
     })
 
-    runnable = Runnable {
+    mediaPlayer.setOnSeekCompleteListener { }
 
+    runnable = Runnable {
+        Log.e("TAG", "setupBottomSheetDialog: Runnable check")
         if (mediaPlayer.isPlaying) {
             timerSong.text = durationConverter(mediaPlayer.currentPosition.toLong())
-            seekBar.progress = mediaPlayer.currentPosition
-            seekBar.max = mediaPlayer.duration
+            binding.seekBarSong.progress = mediaPlayer.currentPosition
+            binding.seekBarSong.max = mediaPlayer.duration
         }
         Handler(Looper.getMainLooper()).postDelayed(runnable, 1000)
     }
     Handler(Looper.getMainLooper()).postDelayed(runnable, 1000)
 
-    imgRepeat.setOnClickListener {
+    binding.imgRepeat.setOnClickListener {
         if (!mediaPlayer.isLooping) {
             mediaPlayer.isLooping = true
-            imgRepeat.setImageResource(R.drawable.ic_repeat_one)
+            binding.imgRepeat.setImageResource(R.drawable.ic_repeat_one)
         } else {
             mediaPlayer.isLooping = false
-            imgRepeat.setImageResource(R.drawable.ic_repeat)
+            binding.imgRepeat.setImageResource(R.drawable.ic_repeat)
         }
     }
 
-    imgFav.setOnClickListener {
+    binding.imgFav.setOnClickListener {
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.insertSong(song)
             withContext(Dispatchers.Main) {
                 Toast.makeText(requireContext(), "success add to favorite", Toast.LENGTH_SHORT)
                     .show()
+                binding.imgFav.setImageResource(R.drawable.ic_fav_success)
             }
         }
     }
 
-    title.text = song.song_title
+    binding.songDialogTitle.text = song.song_title
 
-    imgNext.setOnClickListener {
+    binding.imgNext.setOnClickListener {
         if (currentPosition < songsList.size - 1) {
             currentPosition = currentPosition + 1
             try {
                 mediaPlayer.stop()
                 mediaPlayer.reset()
-                mediaPlayer.setDataSource(songsList.get(currentPosition).song_url)
+                mediaPlayer.setDataSource(songsList.get(currentPosition).song_url.toString())
                 mediaPlayer.prepare()
                 mediaPlayer.start()
-                title.text = songsList.get(currentPosition).song_title
+                binding.songDialogTitle.text = songsList.get(currentPosition).song_title
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "have a problem $e", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            currentPosition = 0
         }
     }
 
-    imgLast.setOnClickListener {
+    binding.imgLast.setOnClickListener {
         if (currentPosition < songsList.size - 1) {
             currentPosition = currentPosition - 1
             try {
                 mediaPlayer.stop()
                 mediaPlayer.reset()
-                mediaPlayer.setDataSource(songsList.get(currentPosition).song_url)
+                mediaPlayer.setDataSource(songsList.get(currentPosition).song_url.toString())
                 mediaPlayer.prepare()
                 mediaPlayer.start()
-                title.text = songsList.get(currentPosition).song_title
+                binding.songDialogTitle.text = songsList.get(currentPosition).song_title
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "have a problem $e", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            currentPosition = 0
         }
     }
 }

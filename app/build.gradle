@@ -65,12 +65,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 
-    // lottie lib
-    implementation 'com.airbnb.android:lottie:5.2.0'
-
     implementation 'com.shuhart.stepview:stepview:1.5.1'
+    implementation 'androidx.media:media:1.6.0'
 
-    // circle img view
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 
 }

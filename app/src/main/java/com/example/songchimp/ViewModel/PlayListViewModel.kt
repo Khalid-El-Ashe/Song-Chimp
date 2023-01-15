@@ -25,5 +25,9 @@ class PlayListViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun selectPlayList(): LiveData<List<PlayList>> = playListRepository.selectPlayList()
+//    fun selectPlayListSong(id: Int): LiveData<List<Song>> = playListRepository.selectPlayListSong(id)
 
+//    fun insertSongToPlayList(id: Int) = viewModelScope.launch {
+//        playListRepository.insertSongToPlayList(id)
+//    }
 }
